@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#121213">
+    <meta name="description" content="A mobile-friendly Wordle-style word guessing game.">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./style.css">
+    <title>Wordle</title>
+  </head>
+  <body data-theme="dark">
+    <main class="app">
+      <header class="topbar">
+        <h1>WORDLE</h1>
+        <div class="settings">
+          <label>
+            <span>Length</span>
+            <select id="length-select" aria-label="Word length"></select>
+          </label>
+          <label>
+            <span>Theme</span>
+            <select id="theme-select" aria-label="Color theme">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="pastel">Pastel</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <section id="board" class="board" role="grid" aria-label="Guess board" aria-live="polite"></section>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+      <button id="new-game" class="new-game" type="button" hidden>New game</button>
+      <section id="keyboard" class="keyboard" aria-label="On-screen keyboard"></section>
+      <p class="hint">Use the keyboard or tap the letters below.</p>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
