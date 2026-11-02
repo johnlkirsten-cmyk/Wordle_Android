@@ -33,7 +33,9 @@ service-worker support.
 - Word lengths available in the included list (4, 5, and 6 letters)
 - Dark, light, and pastel themes; theme and length are saved on the device
 - Six guesses, duplicate-letter-aware feedback, and offline caching
-- No third-party libraries or network requests
+- A solution definition lookup using the free Dictionary API; this requires an
+  internet connection, and some names or brands may not have dictionary entries
+- No third-party libraries
 
 ## Run the game-logic tests
 

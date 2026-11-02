@@ -112,6 +112,15 @@ h1 {
   font-size: 0.85rem;
 }
 
+.info-banner {
+  width: min(100%, 520px);
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
 .board {
   display: grid;
   width: 100%;
@@ -189,6 +198,33 @@ h1 {
 
 .new-game[hidden] {
   display: none;
+}
+
+.definition {
+  width: min(100%, 520px);
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.definition[hidden] {
+  display: none;
+}
+
+.definition h2 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+}
+
+.definition p {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.definition a {
+  color: var(--muted);
+  font-size: 0.7rem;
 }
 
 .keyboard {

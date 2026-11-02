@@ -12,6 +12,8 @@ const messageElement = document.querySelector("#message");
 const lengthSelect = document.querySelector("#length-select");
 const themeSelect = document.querySelector("#theme-select");
 const newGameButton = document.querySelector("#new-game");
+const definitionElement = document.querySelector("#definition");
+const definitionTextElement = document.querySelector("#definition-text");
 const themes = new Set(["dark", "light", "pastel"]);
 const keyboardRows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
@@ -22,12 +24,14 @@ let guesses = [];
 let draft = "";
 let gameOver = false;
 let ready = false;
+let definitionRequestId = 0;
 
 function savedValue(key) {
   return localStorage.getItem(key);
 }
 
 function startNewGame() {
+  definitionRequestId += 1;
   target = chooseTarget(words, wordLength);
   guesses = [];
   draft = "";
@@ -36,6 +40,8 @@ function startNewGame() {
   boardElement.style.setProperty("--word-length", wordLength);
   messageElement.textContent = "";
   newGameButton.hidden = true;
+  definitionElement.hidden = true;
+  definitionTextElement.textContent = "";
 
   for (let row = 0; row < MAX_ATTEMPTS; row += 1) {
     const rowElement = document.createElement("div");
@@ -169,9 +175,46 @@ function submitGuess() {
 
 function finishGame(message) {
   gameOver = true;
-  showMessage(message);
+  showMessage(`${message} Solution: ${target}.`);
   newGameButton.hidden = false;
   newGameButton.focus();
+  definitionElement.hidden = false;
+  definitionTextElement.textContent = "Looking up the definition...";
+  const requestId = ++definitionRequestId;
+  loadDefinition(target, requestId);
+}
+
+async function loadDefinition(word, requestId) {
+  const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`;
+  try {
+    const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (requestId !== definitionRequestId) return;
+    if (response.status === 404) {
+      definitionTextElement.textContent = "No dictionary entry was found for this solution.";
+      return;
+    }
+    if (!response.ok) {
+      definitionTextElement.textContent = "Definition unavailable: the dictionary service returned an error.";
+      return;
+    }
+
+    const entries = await response.json();
+    const meaning = entries
+      .flatMap((entry) => entry.meanings ?? [])
+      .find((item) => item.definitions?.[0]?.definition);
+    if (requestId !== definitionRequestId) return;
+    definitionTextElement.textContent = meaning
+      ? `${meaning.partOfSpeech ?? "Definition"}: ${meaning.definitions[0].definition}`
+      : "No dictionary definition was found for this solution.";
+  } catch (error) {
+    if (!(error instanceof TypeError || error instanceof DOMException || error instanceof SyntaxError)) {
+      throw error;
+    }
+    console.error("Could not retrieve the solution definition:", error);
+    if (requestId === definitionRequestId) {
+      definitionTextElement.textContent = "Definition unavailable: could not reach the dictionary service.";
+    }
+  }
 }
 
 function showMessage(message) {

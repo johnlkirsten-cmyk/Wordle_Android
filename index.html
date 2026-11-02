@@ -30,9 +30,15 @@
         </div>
       </header>
 
+      <p class="info-banner">Words may include common English words, names, places, and well-known brands. No numbers or punctuation.</p>
       <section id="board" class="board" role="grid" aria-label="Guess board" aria-live="polite"></section>
       <p id="message" class="message" role="status" aria-live="polite"></p>
       <button id="new-game" class="new-game" type="button" hidden>New game</button>
+      <section id="definition" class="definition" aria-live="polite" hidden>
+        <h2>Solution definition</h2>
+        <p id="definition-text"></p>
+        <a href="https://dictionaryapi.dev/" target="_blank" rel="noopener noreferrer">Definition source: Free Dictionary API</a>
+      </section>
       <section id="keyboard" class="keyboard" aria-label="On-screen keyboard"></section>
       <p class="hint">Use the keyboard or tap the letters below.</p>
     </main>

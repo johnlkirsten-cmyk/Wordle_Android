@@ -1,4 +1,4 @@
-const CACHE_NAME = "wordle-android-v1";
+const CACHE_NAME = "wordle-android-v2";
 const APP_FILES = [
   "./",
   "./index.html",
